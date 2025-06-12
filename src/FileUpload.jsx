@@ -7,10 +7,11 @@ import {
   IconButton,
   Paper,
 } from "@mui/material";
-import { PhotoCamera, Delete } from "@mui/icons-material";
+import { PhotoCamera, Videocam, Delete } from "@mui/icons-material";
 
 export default function CaptureUpload() {
-  const fileInputRef = useRef(null);
+  const photoInputRef = useRef(null);
+  const videoInputRef = useRef(null);
   const [files, setFiles] = useState([]);
 
   const handleCapture = (e) => {
@@ -26,31 +27,51 @@ export default function CaptureUpload() {
 
   const handleUpload = () => {
     console.log("Uploading files:", files);
-    // Upload logic goes here, like:
-    // files.forEach(file => uploadToServer(file));
+    // Replace with your actual upload logic
   };
 
   return (
     <Box p={2}>
+
+      {/* Hidden inputs for photo and video */}
       <input
         type="file"
         accept="image/*"
         capture="environment"
-        ref={fileInputRef}
+        ref={photoInputRef}
         onChange={handleCapture}
         style={{ display: "none" }}
-        multiple
       />
 
-      <Button
-        variant="contained"
-        startIcon={<PhotoCamera />}
-        onClick={() => fileInputRef.current.click()}
-        sx={{ mb: 2 }}
-      >
-        Capture Picture
-      </Button>
+      <input
+        type="file"
+        accept="video/*"
+        capture="environment"
+        ref={videoInputRef}
+        onChange={handleCapture}
+        style={{ display: "none" }}
+      />
 
+      {/* Buttons to trigger camera or video recorder */}
+      <Stack direction="row" spacing={2} mb={2}>
+        <Button
+          variant="contained"
+          startIcon={<PhotoCamera />}
+          onClick={() => photoInputRef.current.click()}
+        >
+          Capture Photo
+        </Button>
+
+        <Button
+          variant="outlined"
+          startIcon={<Videocam />}
+          onClick={() => videoInputRef.current.click()}
+        >
+          Record Video
+        </Button>
+      </Stack>
+
+      {/* File name list with delete */}
       <Stack spacing={1}>
         {files.map((file, idx) => (
           <Paper
